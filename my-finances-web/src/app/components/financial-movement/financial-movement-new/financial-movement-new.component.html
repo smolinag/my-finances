@@ -1,0 +1,65 @@
+<h1 mat-dialog-title>New Movement</h1>
+<div mat-dialog-content>
+  <div class="row">
+    <div class="col-xs-4">
+      <p>Date:</p>
+    </div>
+    <div class="col-xs-7">
+      <input type="date" id="birthday" name="birthday" [(ngModel)]="data.date">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-4">
+      <p>Movement:</p>
+    </div>
+    <div class="col-xs-7">
+      <mat-radio-group
+        aria-label="Select an option"
+        (change)="onMovementTypeChange($event.value)"
+      >
+        <mat-radio-button value="0" checked="true">Expense</mat-radio-button>
+        <mat-radio-button value="1">Income</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-4">
+      <p>Category:</p>
+    </div>
+    <div class="col-xs-7">
+      <select (change)="onExpenseOrIncomeCategoryChange($event.target.value)">
+        <option *ngFor="let type of typeOptions">
+          {{ type.value }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-4">
+      <p>Name:</p>
+    </div>
+    <div class="col-xs-7">
+      <input matInput [(ngModel)]="data.name" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-4">
+      <p>Description:</p>
+    </div>
+    <div class="col-xs-7">
+      <input matInput [(ngModel)]="data.description" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-4">
+      <p>Value:</p>
+    </div>
+    <div class="col-xs-7">
+      <input matInput [(ngModel)]="data.value" />
+    </div>
+  </div>  
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+</div>

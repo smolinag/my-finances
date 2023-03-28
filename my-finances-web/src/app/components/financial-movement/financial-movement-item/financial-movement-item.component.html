@@ -1,0 +1,16 @@
+<a href="#" class="list-group-item clearfix">
+  <div class="pull-left">
+    <h4 class="list-group-item-heading">{{ financialMovement.name }}</h4>
+    <p class="list-group-item-text">{{ financialMovement.description }}</p>
+  </div>
+  <div class="pull-right">
+    <p
+      class="list-group-item-text"
+      [ngStyle]="{
+        color: financialMovement.movementType === movementType.Expense ? 'red' : 'green'
+      }"
+    >
+      {{ financialMovement.value }}
+    </p>
+  </div>
+</a>

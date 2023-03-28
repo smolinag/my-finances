@@ -1,0 +1,9 @@
+<div class="row">
+  <div class="col-xs-12">
+    <h4>{{ date }}</h4>
+    <app-financial-movement-item
+      *ngFor="let movement of financialMovements"
+      [financialMovement]="movement"
+    ></app-financial-movement-item>
+  </div>
+</div>

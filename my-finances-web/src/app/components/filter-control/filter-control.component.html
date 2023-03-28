@@ -1,0 +1,24 @@
+<div>
+  <div class="row">
+    <div class="col-xs-4">
+      <mat-form-field appearance="fill">
+        <mat-label>Year</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let year of years" [value]="year.key">
+            {{ year.value }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-xs-4">
+      <mat-form-field appearance="fill">
+        <mat-label>Month</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let month of months" [value]="month.key">
+            {{ month.value }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+</div>
