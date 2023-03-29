@@ -1,24 +1,29 @@
 <div>
   <div class="row">
-    <div class="col-xs-4">
+    <div class="col-xs-3">
       <mat-form-field appearance="fill">
         <mat-label>Year</mat-label>
-        <mat-select>
+        <mat-select [(value)]="year">
           <mat-option *ngFor="let year of years" [value]="year.key">
             {{ year.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
-    <div class="col-xs-4">
+    <div class="col-xs-3">
       <mat-form-field appearance="fill">
         <mat-label>Month</mat-label>
-        <mat-select>
+        <mat-select [(value)]="month">
           <mat-option *ngFor="let month of months" [value]="month.key">
             {{ month.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
+    </div>
+    <div class="col-xs-3">
+      <button class="btn btn-primary" mat-raised-button (click)="onSearch()">
+        Search
+      </button>
     </div>
   </div>
 </div>

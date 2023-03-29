@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './filter-control.component.html',
   styleUrls: ['./filter-control.component.css'],
 })
-export class FilterControlComponent {
+export class FilterControlComponent {  
   years: { key: string; value: string }[] = [
     { key: '2022', value: '2022' },
     { key: '2023', value: '2023' },
@@ -23,5 +23,13 @@ export class FilterControlComponent {
     { key: '10', value: 'October' },
     { key: '11', value: 'November' },
     { key: '12', value: 'December' },
+    { key: '13', value: 'All' }
   ];
+
+  year: string = '2023';
+  month: string = this.months.filter(item => item.key === (new Date().getMonth() + 1).toString())[0].key;
+
+  onSearch(){
+
+  }
 }

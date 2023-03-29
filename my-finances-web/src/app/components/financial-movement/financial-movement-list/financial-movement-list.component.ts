@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ExpenseCategory, FinancialMovementItem, IncomeCategory } from 'src/app/models/financial-movement-item.model';
+import {
+  ExpenseCategory,
+  FinancialMovementItem,
+  IncomeCategory,
+} from 'src/app/models/financial-movement-item.model';
 import { FinancialMovementNewComponent } from '../financial-movement-new/financial-movement-new.component';
 import { FinancialMovementsManagementService } from 'src/app/services/financial-movements-management.service';
 
@@ -16,7 +20,10 @@ export class FinancialMovementListComponent {
     financialMovements: FinancialMovementItem[];
   }[] = [];
 
-  newFinancialMovement: FinancialMovementItem = this.financialMovementMgmtService.setDefaultIncomeExpenseCategory(new FinancialMovementItem());
+  newFinancialMovement: FinancialMovementItem =
+    this.financialMovementMgmtService.setDefaultIncomeExpenseCategory(
+      new FinancialMovementItem()
+    );
 
   constructor(
     public dialog: MatDialog,
@@ -37,11 +44,16 @@ export class FinancialMovementListComponent {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      this.financialMovementMgmtService.addNewFinancialMovement(result); 
-      this.financialMovements = this.financialMovementMgmtService.getFinancialMovements();
-      this.setFinancialMovementsByDay(this.financialMovements);
-      console.log(this.financialMovements)
-      this.newFinancialMovement = this.financialMovementMgmtService.setDefaultIncomeExpenseCategory(new FinancialMovementItem());
+      if (result) {
+        this.financialMovementMgmtService.addNewFinancialMovement(result);
+        this.financialMovements =
+          this.financialMovementMgmtService.getFinancialMovements();
+        this.setFinancialMovementsByDay(this.financialMovements);
+        this.newFinancialMovement =
+          this.financialMovementMgmtService.setDefaultIncomeExpenseCategory(
+            new FinancialMovementItem()
+          );
+      }
     });
   }
 

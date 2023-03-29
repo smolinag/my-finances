@@ -30,11 +30,9 @@ export class FinancialMovementNewComponent {
     if (value == 0) {
       this.data.movementType = MovementType.Expense;      
       this.typeOptions = this.mapEnumForSelector(ExpenseCategory);
-      console.log(Object.values(this.typeOptions))
     } else {
       this.data.movementType = MovementType.Income;
-      this.typeOptions = this.mapEnumForSelector(IncomeCategory);      
-      console.log(Object.values(this.typeOptions))
+      this.typeOptions = this.mapEnumForSelector(IncomeCategory);  
     }
     this.financialMovementMgmtService.setDefaultIncomeExpenseCategory(this.data);
   }
