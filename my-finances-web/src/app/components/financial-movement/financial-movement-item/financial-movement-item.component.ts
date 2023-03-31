@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FinancialMovementItem, MovementType } from 'src/app/models/financial-movement-item.model';
+import { FinancesUtils } from 'src/app/utils/finances.utils';
 
 @Component({
   selector: 'app-financial-movement-item',
@@ -8,6 +9,8 @@ import { FinancialMovementItem, MovementType } from 'src/app/models/financial-mo
 })
 export class FinancialMovementItemComponent {
   @Input() financialMovement: FinancialMovementItem;
+
+  constructor(public financesUtils: FinancesUtils){}
 
   public get movementType(): typeof MovementType {
     return MovementType; 

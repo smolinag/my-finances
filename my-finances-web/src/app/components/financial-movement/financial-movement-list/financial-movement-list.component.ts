@@ -1,12 +1,9 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import {
-  ExpenseCategory,
-  FinancialMovementItem,
-  IncomeCategory,
-} from 'src/app/models/financial-movement-item.model';
+import { FinancialMovementItem } from 'src/app/models/financial-movement-item.model';
 import { FinancialMovementNewComponent } from '../financial-movement-new/financial-movement-new.component';
 import { FinancialMovementsManagementService } from 'src/app/services/financial-movements-management.service';
+import { SearchFilters } from 'src/app/models/search-filters.model';
 
 @Component({
   selector: 'app-financial-movement-list',
@@ -34,6 +31,13 @@ export class FinancialMovementListComponent {
     this.financialMovements =
       await this.financialMovementMgmtService.getFinancialMovements();
     this.setFinancialMovementsByDay(this.financialMovements);
+    this.financialMovementMgmtService.newFiltersSelection.subscribe(
+      async () => {
+        this.financialMovements =
+          await this.financialMovementMgmtService.getFinancialMovements();
+        this.setFinancialMovementsByDay(this.financialMovements);
+      }
+    );
   }
 
   openDialog() {
@@ -59,6 +63,9 @@ export class FinancialMovementListComponent {
 
   setFinancialMovementsByDay(financialMovements: FinancialMovementItem[]) {
     this.financialMovementsByDay = [];
+    financialMovements.sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
     financialMovements.forEach((movement) => {
       let date = movement.date;
       let dayMovementsArr = this.financialMovementsByDay.filter(

@@ -10,7 +10,7 @@
         color: financialMovement.movementType === movementType.Expense ? 'red' : 'green'
       }"
     >
-      {{ financialMovement.value }}
+      {{ financesUtils.mapValueToCurrency(financialMovement.value) }}
     </p>
   </div>
 </a>

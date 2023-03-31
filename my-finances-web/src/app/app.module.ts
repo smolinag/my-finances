@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { MatSelectModule } from '@angular/material/select';
@@ -20,6 +20,7 @@ import { FinancialSummaryComponent } from './components/financial-summary/financ
 import { FinancialMovementDayComponent } from './components/financial-movement/financial-movement-day/financial-movement-day.component';
 import { FilterControlComponent } from './components/filter-control/filter-control.component';
 import { FinancialMovementNewComponent } from './components/financial-movement/financial-movement-new/financial-movement-new.component';
+import { FinancesUtils } from './utils/finances.utils';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,11 @@ import { FinancialMovementNewComponent } from './components/financial-movement/f
     MatRadioModule,
     FormsModule,
   ],
-  providers: [FinancialMovementsManagementService],
+  providers: [
+    FinancialMovementsManagementService,
+    FilterControlComponent,
+    FinancesUtils,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,23 +1,23 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import {
   ExpenseCategory,
   FinancialMovementItem,
   IncomeCategory,
   MovementType,
 } from 'src/app/models/financial-movement-item.model';
+import { FilterControlComponent } from '../components/filter-control/filter-control.component';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../environments/environment.local';
 import { firstValueFrom } from 'rxjs';
+import { SearchFilters } from '../models/search-filters.model';
 
 @Injectable()
 export class FinancialMovementsManagementService {
+  @Output() newFiltersSelection = new EventEmitter<SearchFilters>();
+
   userId: string = '123456';
-  date: string = new Date().toISOString().split('T')[0];
-  year: string = this.date.split('-')[0];
-  month: string = this.date.split('-')[1];
-  movementType: string = '';
-  expenseCategory: string = '';
-  incomeCategory: string = '';
+  year: string = new Date().getFullYear().toString();
+  month: string = (new Date().getMonth() + 1).toString();
 
   constructor(private http: HttpClient) {}
 
@@ -35,6 +35,12 @@ export class FinancialMovementsManagementService {
   async getFinancialMovements() {
     let params = new HttpParams();
     params = params.append('userId', this.userId);
+    if (this.year) {
+      params = params.append('year', this.year);
+    }
+    if (this.month) {
+      params = params.append('month', this.month.padStart(2, '0'));
+    }
     let response = await firstValueFrom(
       this.http.get(environment.apiUrl, { params: params })
     );
@@ -51,5 +57,11 @@ export class FinancialMovementsManagementService {
     );
     console.log('Added financial movement: ');
     console.log(data);
+  }
+
+  setNewFilterSelection(filters: SearchFilters) {
+    this.year = filters.year;
+    this.month = filters.month;
+    this.newFiltersSelection.emit(filters);
   }
 }
