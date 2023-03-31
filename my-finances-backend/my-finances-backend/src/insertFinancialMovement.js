@@ -5,48 +5,38 @@ const insertFinancialMovement = async (event) => {
 
   let statusCode = 400;
   let newFinancialMovement = {};
+  let data = JSON.parse(event.body); 
 
-  if (event["queryStringParameters"]) {
-    const id = event["queryStringParameters"]["userId"];
-    const name = event["queryStringParameters"]["name"];
-    const description = event["queryStringParameters"]["description"];
-    const value = event["queryStringParameters"]["value"];
-    const movementType = event["queryStringParameters"]["movementType"];
-    const incomeType = event["queryStringParameters"]["incomeType"];
-    const expenseType = event["queryStringParameters"]["expenseType"];
-    const date = event["queryStringParameters"]["date"];
-
-    if (id && name && value && movementType && date) {
-      const dateStr = date.split("-");
-      const year = dateStr[0];
-      const month = dateStr[1];
-      newFinancialMovement = {
-        id,
-        rangeId: year + "-" + month + "-" + type[0],
-        name,
-        description: description != null ? description : "",
-        value,
-        movementType,
-        incomeType,
-        expenseType,
-        date,
-      };
-      console.log(newFinancialMovement);
-      await dynamoDB
-        .put({
-          TableName: "FinancialMovements",
-          Item: newFinancialMovement,
-        })
-        .promise();
-      statusCode = 200;
-    }
+  if (data) {
+    const dateStr = data.date.split("-");
+    const year = dateStr[0];
+    const month = dateStr[1];
+    newFinancialMovement = {
+      id: data.userId,
+      rangeId: year + "-" + month + "-" + data.movementType[0] + "-" + data.name,
+      name: data.name,
+      description: data.description,
+      value: data.value,
+      movementType: data.movementType,
+      incomeCategory: data.incomeCategory,
+      expenseCategory: data.expenseCategory,
+      date: data.date
+    };
+    console.log(newFinancialMovement);
+    await dynamoDB
+      .put({
+        TableName: "FinancialMovements",
+        Item: newFinancialMovement,
+      })
+      .promise();
+    statusCode = 200;
   }
 
   return {
     statusCode,
     headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Credentials': true,
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Credentials": true,
     },
     body: JSON.stringify(newFinancialMovement),
   };

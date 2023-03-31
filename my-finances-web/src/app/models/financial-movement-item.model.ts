@@ -1,4 +1,5 @@
 export class FinancialMovementItem {
+  public userId: string;
   public name: string;
   public description: string;
   public value: number;
@@ -8,6 +9,7 @@ export class FinancialMovementItem {
   public date: string;
 
   constructor(
+    userId: string = "",
     name: string = "",
     desc: string = "",
     value: number = 0,
@@ -16,6 +18,7 @@ export class FinancialMovementItem {
     incomeCategory: IncomeCategory = null,
     date: string = (new Date()).toISOString().split('T')[0]
   ) {
+    this.userId = userId;
     this.name = name;
     this.description = desc;
     this.value = value;

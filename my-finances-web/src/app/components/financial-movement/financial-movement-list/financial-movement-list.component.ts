@@ -30,9 +30,9 @@ export class FinancialMovementListComponent {
     private financialMovementMgmtService: FinancialMovementsManagementService
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.financialMovements =
-      this.financialMovementMgmtService.getFinancialMovements();
+      await this.financialMovementMgmtService.getFinancialMovements();
     this.setFinancialMovementsByDay(this.financialMovements);
   }
 
@@ -43,11 +43,11 @@ export class FinancialMovementListComponent {
       data: this.newFinancialMovement,
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(async (result) => {
       if (result) {
-        this.financialMovementMgmtService.addNewFinancialMovement(result);
+        await this.financialMovementMgmtService.addNewFinancialMovement(result);
         this.financialMovements =
-          this.financialMovementMgmtService.getFinancialMovements();
+          await this.financialMovementMgmtService.getFinancialMovements();
         this.setFinancialMovementsByDay(this.financialMovements);
         this.newFinancialMovement =
           this.financialMovementMgmtService.setDefaultIncomeExpenseCategory(

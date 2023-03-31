@@ -5,7 +5,9 @@ import {
   IncomeCategory,
   MovementType,
 } from 'src/app/models/financial-movement-item.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { environment } from '../environments/environment.local';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class FinancialMovementsManagementService {
@@ -19,45 +21,6 @@ export class FinancialMovementsManagementService {
 
   constructor(private http: HttpClient) {}
 
-  private financialMovements: FinancialMovementItem[] = [
-    new FinancialMovementItem(
-      'Factura luz',
-      'Factura luz',
-      54000,
-      MovementType.Expense,
-      null,
-      null,
-      '2023-03-12'
-    ),
-    new FinancialMovementItem(
-      'Factura Agua',
-      'Factura luz',
-      54000,
-      MovementType.Expense,
-      null,
-      null,
-      '2023-03-12'
-    ),
-    new FinancialMovementItem(
-      'Factura luz',
-      'Factura luz',
-      54000,
-      MovementType.Expense,
-      null,
-      null,
-      '2023-03-12'
-    ),
-    new FinancialMovementItem(
-      'Factura luz',
-      'Factura gas',
-      54000,
-      MovementType.Expense,
-      null,
-      null,
-      '2023-03-10'
-    ),
-  ];
-
   setDefaultIncomeExpenseCategory(movement: FinancialMovementItem) {
     if (movement.movementType == MovementType.Expense) {
       movement.expenseCategory = ExpenseCategory.Facturas;
@@ -69,27 +32,24 @@ export class FinancialMovementsManagementService {
     return movement;
   }
 
-  getFinancialMovements() {
+  async getFinancialMovements() {
+    let params = new HttpParams();
+    params = params.append('userId', this.userId);
+    let response = await firstValueFrom(
+      this.http.get(environment.apiUrl, { params: params })
+    );
+    let data = response as FinancialMovementItem[];
     console.log('Get financial movements: ');
-    console.log(this.financialMovements);
-    this.http
-      .get(
-        'https://qpk6gtfqz6.execute-api.us-east-1.amazonaws.com/?userId=123456'
-      )
-      .subscribe((data) => {
-        console.log(data);
-      });
-    return this.financialMovements.slice();
+    console.log(data);
+    return data;
   }
 
-  setFinancialMovements(financialMovements: FinancialMovementItem[]) {
-    this.financialMovements = financialMovements;
-    console.log('Set financial movements: ' + this.financialMovements);
-  }
-
-  addNewFinancialMovement(financialMovement: FinancialMovementItem) {
-    this.financialMovements.push(financialMovement);
+  async addNewFinancialMovement(financialMovement: FinancialMovementItem) {
+    financialMovement.userId = this.userId;
+    let data = await firstValueFrom(
+      this.http.post(environment.apiUrl, JSON.stringify(financialMovement))
+    );
     console.log('Added financial movement: ');
-    console.log(financialMovement);
+    console.log(data);
   }
 }
