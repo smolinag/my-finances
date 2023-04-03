@@ -7,7 +7,10 @@
     <p
       class="list-group-item-text"
       [ngStyle]="{
-        color: financialMovement.movementType === movementType.Expense ? 'red' : 'green'
+        color:
+          financialMovement.movementType === movementType.Expense
+            ? 'red'
+            : 'green'
       }"
     >
       {{ financesUtils.mapValueToCurrency(financialMovement.value) }}

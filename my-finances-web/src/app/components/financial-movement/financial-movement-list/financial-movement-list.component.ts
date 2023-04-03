@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { FinancialMovementItem } from 'src/app/models/financial-movement-item.model';
 import { FinancialMovementNewComponent } from '../financial-movement-new/financial-movement-new.component';
 import { FinancialMovementsManagementService } from 'src/app/services/financial-movements-management.service';
-import { SearchFilters } from 'src/app/models/search-filters.model';
 
 @Component({
   selector: 'app-financial-movement-list',

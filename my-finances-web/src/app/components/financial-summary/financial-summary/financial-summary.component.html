@@ -1,13 +1,13 @@
 <div class="col-xs-12">
-  <div class="row">
-    <h3>{{ "My financial summary" }}</h3>
+  <div class="row title">
+    <h3>{{ "Summary" }}</h3>
   </div>
   <div class="row">
     <div class="col-md-4">
       <div class="card" style="width: 14rem">
         <div class="card-body">
           <h4 class="card-title">Total Income:</h4>
-          <p class="card-text" style="color: green">1'500.000</p>
+          <p class="card-text" style="color: green">{{financesUtils.mapValueToCurrency(totalIncome)}}</p>
         </div>
       </div>
     </div>
@@ -15,15 +15,15 @@
       <div class="card" style="width: 14rem">
         <div class="card-body">
           <h4 class="card-title">Total Expense:</h4>
-          <p class="card-text" style="color: rgb(206, 38, 38)">1'500.000</p>
+          <p class="card-text" style="color: rgb(206, 38, 38)">{{financesUtils.mapValueToCurrency(totalExpense)}}</p>
         </div>
       </div>
     </div>
     <div class="col-md-4">
       <div class="card" style="width: 14rem">
         <div class="card-body">
-          <h4 class="card-title">Total income:</h4>
-          <p class="card-text">1'500.000</p>
+          <h4 class="card-title">Difference:</h4>
+          <p class="card-text">{{financesUtils.mapValueToCurrency(totalDifference)}}</p>
         </div>
       </div>
     </div>

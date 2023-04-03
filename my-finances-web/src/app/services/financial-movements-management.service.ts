@@ -5,7 +5,6 @@ import {
   IncomeCategory,
   MovementType,
 } from 'src/app/models/financial-movement-item.model';
-import { FilterControlComponent } from '../components/filter-control/filter-control.component';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../environments/environment.local';
 import { firstValueFrom } from 'rxjs';
@@ -14,6 +13,8 @@ import { SearchFilters } from '../models/search-filters.model';
 @Injectable()
 export class FinancialMovementsManagementService {
   @Output() newFiltersSelection = new EventEmitter<SearchFilters>();
+  @Output() newRequestToServer = new EventEmitter<FinancialMovementItem[]>();
+  financialMovements: FinancialMovementItem[] = [];
 
   userId: string = '123456';
   year: string = new Date().getFullYear().toString();
@@ -32,22 +33,28 @@ export class FinancialMovementsManagementService {
     return movement;
   }
 
-  async getFinancialMovements() {
-    let params = new HttpParams();
-    params = params.append('userId', this.userId);
-    if (this.year) {
-      params = params.append('year', this.year);
+  async getFinancialMovements(getFromCache: boolean = false) {
+    if (!getFromCache) {
+      let params = new HttpParams();
+      params = params.append('userId', this.userId);
+      if (this.year) {
+        params = params.append('year', this.year);
+      }
+      if (this.month) {
+        params = params.append('month', this.month.padStart(2, '0'));
+      }
+      let response = await firstValueFrom(
+        this.http.get(environment.apiUrl, { params: params })
+      );
+      let data = response as FinancialMovementItem[];
+      this.financialMovements = data;
+      console.log('Get financial movements: ');
+      console.log(data);
+      this.newRequestToServer.emit(data);
+      return data;
+    } else {
+      return this.financialMovements;
     }
-    if (this.month) {
-      params = params.append('month', this.month.padStart(2, '0'));
-    }
-    let response = await firstValueFrom(
-      this.http.get(environment.apiUrl, { params: params })
-    );
-    let data = response as FinancialMovementItem[];
-    console.log('Get financial movements: ');
-    console.log(data);
-    return data;
   }
 
   async addNewFinancialMovement(financialMovement: FinancialMovementItem) {
