@@ -19,6 +19,7 @@ export class FinancialMovementsManagementService {
   userId: string = '123456';
   year: string = new Date().getFullYear().toString();
   month: string = (new Date().getMonth() + 1).toString();
+  incomeVisible: boolean = true;
 
   constructor(private http: HttpClient) {}
 

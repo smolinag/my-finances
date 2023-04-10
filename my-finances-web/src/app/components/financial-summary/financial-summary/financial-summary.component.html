@@ -7,7 +7,9 @@
       <div class="card" style="width: 14rem">
         <div class="card-body">
           <h4 class="card-title">Total Income:</h4>
-          <p class="card-text" style="color: green">{{financesUtils.mapValueToCurrency(totalIncome)}}</p>
+          <p class="card-text" style="color: #008000">
+            {{ financesUtils.mapValueToCurrency(totalIncome) }}
+          </p>
         </div>
       </div>
     </div>
@@ -15,7 +17,9 @@
       <div class="card" style="width: 14rem">
         <div class="card-body">
           <h4 class="card-title">Total Expense:</h4>
-          <p class="card-text" style="color: rgb(206, 38, 38)">{{financesUtils.mapValueToCurrency(totalExpense)}}</p>
+          <p class="card-text" style="color: #ce2626">
+            {{ financesUtils.mapValueToCurrency(totalExpense) }}
+          </p>
         </div>
       </div>
     </div>
@@ -23,9 +27,32 @@
       <div class="card" style="width: 14rem">
         <div class="card-body">
           <h4 class="card-title">Difference:</h4>
-          <p class="card-text">{{financesUtils.mapValueToCurrency(totalDifference)}}</p>
+          <p class="card-text">
+            {{ financesUtils.mapValueToCurrency(totalDifference) }}
+          </p>
         </div>
       </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <ngx-charts-bar-vertical-2d
+        [view]="view"
+        [results]="chartData"
+        [gradient]="false"
+        [xAxis]="true"
+        [yAxis]="true"
+        [legend]="false"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        [animations]="false"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+        [customColors]="customColors"
+        [barPadding]="barPadding"
+        [groupPadding]="groupPadding"        
+      >
+      </ngx-charts-bar-vertical-2d>
     </div>
   </div>
 </div>

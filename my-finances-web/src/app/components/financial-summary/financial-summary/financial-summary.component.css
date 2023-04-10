@@ -1,0 +1,10 @@
+.chart-container {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.spectre-line-chart {
+    height: 100%;
+    width: 100%;
+    float: left;
+}

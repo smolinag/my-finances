@@ -9,6 +9,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import { FinancialMovementsManagementService } from './services/financial-movements-management.service';
 
@@ -44,7 +45,8 @@ import { FinancesUtils } from './utils/finances.utils';
     MatDialogModule,
     MatRadioModule,
     FormsModule,
-    MatIconModule
+    MatIconModule,
+    NgxChartsModule
   ],
   providers: [
     FinancialMovementsManagementService,
