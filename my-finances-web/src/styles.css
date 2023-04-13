@@ -4,6 +4,8 @@ html,
 body {
   height: 100%;
 }
+@import '~@aws-amplify/ui-angular/theme.css';
+
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;

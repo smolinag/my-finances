@@ -11,6 +11,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
+import { Amplify } from 'aws-amplify';
+import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
+
 import { FinancialMovementsManagementService } from './services/financial-movements-management.service';
 
 import { AppComponent } from './app.component';
@@ -23,6 +26,16 @@ import { FinancialMovementDayComponent } from './components/financial-movement/f
 import { FilterControlComponent } from './components/filter-control/filter-control.component';
 import { FinancialMovementNewComponent } from './components/financial-movement/financial-movement-new/financial-movement-new.component';
 import { FinancesUtils } from './utils/finances.utils';
+import { environment } from './environments/environment.local';
+
+Amplify.configure({
+  Auth: {
+    // Required for Cognito user pool
+    region: 'us-east-1',
+    userPoolId: environment.cognito.userPoolId,
+    userPoolWebClientId: environment.cognito.userPoolWebClientId,
+  },
+});
 
 @NgModule({
   declarations: [
@@ -46,7 +59,8 @@ import { FinancesUtils } from './utils/finances.utils';
     MatRadioModule,
     FormsModule,
     MatIconModule,
-    NgxChartsModule
+    NgxChartsModule,
+    AmplifyAuthenticatorModule,
   ],
   providers: [
     FinancialMovementsManagementService,

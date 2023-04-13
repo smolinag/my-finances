@@ -1,16 +1,25 @@
 <nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" (click)="collapsed = !collapsed">
-              <span class="icon-bar" *ngFor="let iconBar of [1, 2, 3]"></span>
-            </button>
-            <a routerLink="/" class="navbar-brand">My finances</a>
-          </div>
-          <div class="navbar-collapse" [class.collapse]="collapsed" (window:resize)="collapsed = true">
-            <ul class="nav navbar-nav">
-                <li><a href="#">Summary</a></li>
-                <li><a href="#">List</a></li>
-            </ul>
-        </div>
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button
+        type="button"
+        class="navbar-toggle"
+        (click)="collapsed = !collapsed"
+      >
+        <span class="icon-bar" *ngFor="let iconBar of [1, 2, 3]"></span>
+      </button>
+      <a routerLink="/" class="navbar-brand">My finances</a>
     </div>
+    <div
+      class="navbar-collapse"
+      [class.collapse]="collapsed"
+      (window:resize)="collapsed = true"
+    >
+      <ul class="nav navbar-nav">
+        <li><a href="#">Summary</a></li>
+        <li><a href="#">List</a></li>
+      </ul>
+      <div><button (click)="signOut()">logout</button></div>
+    </div>
+  </div>
 </nav>

@@ -1,2 +1,10 @@
-<app-header></app-header>
-<app-main></app-main>
+<amplify-authenticator>
+  <ng-template
+    amplifySlot="authenticated"
+    let-user="user"
+    let-signOut="signOut"
+  >
+    <app-header></app-header>
+    <app-main></app-main>
+  </ng-template>
+</amplify-authenticator>
