@@ -16,7 +16,7 @@ export class FinancialMovementsManagementService {
   @Output() newRequestToServer = new EventEmitter<FinancialMovementItem[]>();
   financialMovements: FinancialMovementItem[] = [];
 
-  userId: string = '123456';
+  userId: string = '';
   year: string = new Date().getFullYear().toString();
   month: string = (new Date().getMonth() + 1).toString();
   incomeVisible: boolean = true;
@@ -71,5 +71,9 @@ export class FinancialMovementsManagementService {
     this.year = filters.year;
     this.month = filters.month;
     this.newFiltersSelection.emit(filters);
+  }
+
+  setUserId(userID: string){
+    this.userId = userID;
   }
 }

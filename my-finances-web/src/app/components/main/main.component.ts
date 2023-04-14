@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { FinancialMovementsManagementService } from 'src/app/services/financial-movements-management.service';
 
 @Component({
   selector: 'app-main',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent {
-  
+  @Input() userEmail: any= ""; 
+
+  constructor(private financialMovementMgmtService: FinancialMovementsManagementService){}
+
+  ngOnInit() {
+    this.financialMovementMgmtService.setUserId(this.userEmail);
+  }
 }

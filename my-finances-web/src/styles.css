@@ -20,3 +20,23 @@ h3 {
   font-weight: 400 !important;
   font-size: 20px !important;
 }
+
+.amplify-button[data-variation='primary'] {
+  background: linear-gradient(
+    to right,
+    var(--amplify-colors-green-80),
+    var(--amplify-colors-orange-40)
+  );
+}
+
+.amplify-input{
+  font-size: 1.25rem;
+}
+
+[data-amplify-authenticator] {
+  --amplify-components-authenticator-container-width-max: 50rem;
+  --amplify-components-tabs-item-font-size: 1.35rem;
+  --amplify-components-field-font-size:1.35rem;
+  --amplify-components-button-font-size: 1.35rem;
+  --amplify-components-button-small-font-size: 1.25rem;
+}
