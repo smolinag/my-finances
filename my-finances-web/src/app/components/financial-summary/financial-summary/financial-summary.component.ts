@@ -47,6 +47,8 @@ export class FinancialSummaryComponent {
   getSummary() {
     this.financialMovementMgmtService.newRequestToServer.subscribe(
       (financialMovements) => {
+        this.totalIncome = 0;
+        this.totalExpense = 0;
         financialMovements.forEach((item) => {
           this.totalIncome +=
             item.movementType == MovementType.Income ? Number(item.value) : 0;
