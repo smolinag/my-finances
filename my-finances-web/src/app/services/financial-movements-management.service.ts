@@ -48,6 +48,9 @@ export class FinancialMovementsManagementService {
         this.http.get(environment.apiUrl, { params: params })
       );
       let data = response as FinancialMovementItem[];
+
+      //Filter data if incomeVisible false    
+      data = this.incomeVisible ? data : data.filter(item => item.movementType === MovementType.Expense);
       this.financialMovements = data;
       console.log('Get financial movements: ');
       console.log(data);

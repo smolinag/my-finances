@@ -13,7 +13,7 @@
     let-user="user"
     let-signOut="signOut"
   >
-    <app-header></app-header>
+    <app-header [userEmail] = "user.attributes.email"></app-header>
     <app-main [userEmail] = "user.attributes.email"></app-main>
   </ng-template>
 </amplify-authenticator>

@@ -14,14 +14,21 @@
       class="navbar-collapse"
       [class.collapse]="collapsed"
       (window:resize)="collapsed = true"
-      style="justify-content: center;"
+      style="justify-content: center"
     >
-      <ul class="nav navbar-nav">
-        <li><a href="#">Summary</a></li>
-        <li><a href="#">List</a></li>
-        <li style="align-content: right"></li>
-      </ul>
-      <button (click)="signOut()">logout</button>
+      <div class="row" style="display: flex; flex-direction: row;">
+        <div style="text-align: left; flex: 50%;">
+          <ul class="nav navbar-nav">
+            <li><a href="#">Summary</a></li>
+            <li><a href="#">List</a></li>
+            <li style="align-content: right"></li>
+          </ul>
+        </div>
+        <div style="text-align: right; flex: 50%; margin:auto;">
+          <span style="margin-right: 2rem;">{{userEmail}}</span>
+          <button (click)="signOut()">logout</button>
+        </div>
+      </div>
     </div>
   </div>
 </nav>

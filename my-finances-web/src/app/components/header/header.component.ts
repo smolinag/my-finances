@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Auth } from 'aws-amplify';
 
 @Component({
@@ -8,6 +8,7 @@ import { Auth } from 'aws-amplify';
 })
 export class HeaderComponent {
   collapsed = true;
+  @Input() userEmail: any= ""; 
 
   async signOut() {
     try {

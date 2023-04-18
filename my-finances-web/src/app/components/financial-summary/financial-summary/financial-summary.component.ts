@@ -65,7 +65,6 @@ export class FinancialSummaryComponent {
           for (let i = 1; i <= daysInMonth; i++) {
             let dataItem = {};
             if (this.financialMovementMgmtService.incomeVisible) {
-              data.forEach((item) => console.log(new Date(item.date).getDate()))
               let incomeVal = data
                 .filter(
                   (item) =>
@@ -89,6 +88,18 @@ export class FinancialSummaryComponent {
               };
               this.groupPadding = 6;
             } else {
+              let expenseVal = data
+                .filter(
+                  (item) =>
+                    new Date(item.date).getDate() + 1 === i &&
+                    item.movementType === MovementType.Expense
+                )
+                .reduce((a, b) => a + Number(b.value), 0);
+              dataItem = {
+                name: i.toString(),
+                value: expenseVal,
+              };
+              this.groupPadding = 6;
             }
             this.chartData.push(dataItem);
           }
@@ -119,6 +130,18 @@ export class FinancialSummaryComponent {
               };
               this.groupPadding = 16;
             } else {
+              let expenseVal = data
+                .filter(
+                  (item) =>
+                    new Date(item.date).getMonth() + 1 === i &&
+                    item.movementType === MovementType.Expense
+                )
+                .reduce((a, b) => a + Number(b.value), 0);
+              dataItem = {
+                name: i.toString(),
+                value: expenseVal,
+              };
+              this.groupPadding = 16;
             }
             this.chartData.push(dataItem);
           }
