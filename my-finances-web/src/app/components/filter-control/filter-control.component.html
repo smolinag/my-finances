@@ -21,21 +21,26 @@
       </mat-form-field>
     </div>
     <div class="col-xs-3" style="padding: 1rem 0">
-      <button
-        class="btn btn-primary"        
-        mat-raised-button
-        (click)="onSearch()"
-      >
+      <button class="btn btn-primary" mat-raised-button (click)="onSearch()">
         Search
       </button>
     </div>
-    <div class="col-xs-3" style="padding: 1rem 0; text-align: right;">
+    <div class="col-xs-2" style="padding: 1rem 0; text-align: right">
       <button
-        class="btn btn-primary"        
+        class="btn btn-primary"
         mat-raised-button
-        (click)="onSearch()"
+        (click)="onIncomeHiddenStatusChange()"
       >
-        Search
+        <mat-icon
+          aria-hidden="false"
+          aria-label="Example home icon"
+          [svgIcon]="
+            financialMovementMgmtService.incomeVisible ? 'show' : 'hide'
+          "
+          style="vertical-align: middle"
+        >
+        </mat-icon>
+        <span> Income</span>
       </button>
     </div>
   </div>

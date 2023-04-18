@@ -3,7 +3,7 @@
     <h3>{{ "Summary" }}</h3>
   </div>
   <div class="row">
-    <div class="col-md-4">
+    <div *ngIf="financialMovementMgmtService.incomeVisible" class="col-md-4">
       <div class="card" style="width: 14rem">
         <div class="card-body">
           <h4 class="card-title">Total Income:</h4>
@@ -23,7 +23,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-4">
+    <div *ngIf="financialMovementMgmtService.incomeVisible" class="col-md-4">
       <div class="card" style="width: 14rem">
         <div class="card-body">
           <h4 class="card-title">Difference:</h4>
@@ -36,9 +36,10 @@
   </div>
   <div class="row">
     <div class="col-xs-12">
-      <ngx-charts-bar-vertical-2d
+      <ngx-charts-bar-vertical
+        *ngIf="!financialMovementMgmtService.incomeVisible"
         [view]="view"
-        [results]="chartData"
+        [results]="chartDataIncomeHidden"
         [gradient]="false"
         [xAxis]="true"
         [yAxis]="true"
@@ -48,7 +49,24 @@
         [animations]="false"
         [xAxisLabel]="xAxisLabel"
         [yAxisLabel]="yAxisLabel"
-        [customColors]="customColors"
+        [scheme]="customColors1D"
+        [barPadding]="barPadding"        
+      >
+      </ngx-charts-bar-vertical>
+      <ngx-charts-bar-vertical-2d
+        *ngIf="financialMovementMgmtService.incomeVisible"
+        [view]="view"
+        [results]="chartDataIncomeVisible"
+        [gradient]="false"
+        [xAxis]="true"
+        [yAxis]="true"
+        [legend]="false"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        [animations]="false"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+        [customColors]="customColors2D"
         [barPadding]="barPadding"
         [groupPadding]="groupPadding"        
       >

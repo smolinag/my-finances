@@ -14,12 +14,13 @@ import { SearchFilters } from '../models/search-filters.model';
 export class FinancialMovementsManagementService {
   @Output() newFiltersSelection = new EventEmitter<SearchFilters>();
   @Output() newRequestToServer = new EventEmitter<FinancialMovementItem[]>();
+  @Output() newIncomeVisibleStatus = new EventEmitter<Boolean>();
   financialMovements: FinancialMovementItem[] = [];
 
   userId: string = '';
   year: string = new Date().getFullYear().toString();
   month: string = (new Date().getMonth() + 1).toString();
-  incomeVisible: boolean = true;
+  incomeVisible: boolean = false;
 
   constructor(private http: HttpClient) {}
 
@@ -50,7 +51,6 @@ export class FinancialMovementsManagementService {
       let data = response as FinancialMovementItem[];
 
       //Filter data if incomeVisible false    
-      data = this.incomeVisible ? data : data.filter(item => item.movementType === MovementType.Expense);
       this.financialMovements = data;
       console.log('Get financial movements: ');
       console.log(data);
@@ -78,5 +78,10 @@ export class FinancialMovementsManagementService {
 
   setUserId(userID: string){
     this.userId = userID;
+  }
+
+  toggleVisibleStatus(){
+    this.incomeVisible = !this.incomeVisible;
+    this.newIncomeVisibleStatus.emit(this.incomeVisible);
   }
 }

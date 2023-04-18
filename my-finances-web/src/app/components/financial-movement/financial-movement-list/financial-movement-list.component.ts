@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { FinancialMovementItem } from 'src/app/models/financial-movement-item.model';
+import {
+  FinancialMovementItem,
+  MovementType,
+} from 'src/app/models/financial-movement-item.model';
 import { FinancialMovementNewComponent } from '../financial-movement-new/financial-movement-new.component';
 import { FinancialMovementsManagementService } from 'src/app/services/financial-movements-management.service';
 
@@ -37,6 +40,11 @@ export class FinancialMovementListComponent {
         this.setFinancialMovementsByDay(this.financialMovements);
       }
     );
+    this.financialMovementMgmtService.newIncomeVisibleStatus.subscribe(
+      async () => {
+        this.setFinancialMovementsByDay(this.financialMovements);
+      }
+    );
   }
 
   openDialog() {
@@ -65,19 +73,22 @@ export class FinancialMovementListComponent {
     financialMovements.sort(
       (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
     );
+    const incomeVisibleFlag = this.financialMovementMgmtService.incomeVisible;
     financialMovements.forEach((movement) => {
-      let date = movement.date;
-      let dayMovementsArr = this.financialMovementsByDay.filter(
-        (item) => item.date === date
-      );
-      if (dayMovementsArr.length > 0) {
-        let dayMovements = dayMovementsArr[0];
-        dayMovements.financialMovements.push(movement);
-      } else {
-        this.financialMovementsByDay.push({
-          date: date,
-          financialMovements: [movement],
-        });
+      if (incomeVisibleFlag || movement.movementType === MovementType.Expense) {
+        let date = movement.date;
+        let dayMovementsArr = this.financialMovementsByDay.filter(
+          (item) => item.date === date
+        );
+        if (dayMovementsArr.length > 0) {
+          let dayMovements = dayMovementsArr[0];
+          dayMovements.financialMovements.push(movement);
+        } else {
+          this.financialMovementsByDay.push({
+            date: date,
+            financialMovements: [movement],
+          });
+        }
       }
     });
   }

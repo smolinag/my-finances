@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FinancialMovementsManagementService } from 'src/app/services/financial-movements-management.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import { MatIconRegistry } from '@angular/material/icon';
 
 @Component({
   selector: 'app-filter-control',
@@ -8,8 +10,19 @@ import { FinancialMovementsManagementService } from 'src/app/services/financial-
 })
 export class FilterControlComponent {
   constructor(
-    private financialMovementMgmtService: FinancialMovementsManagementService
-  ) {}
+    public financialMovementMgmtService: FinancialMovementsManagementService,
+    iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer
+  ) {
+    iconRegistry.addSvgIcon(
+      'hide',
+      sanitizer.bypassSecurityTrustResourceUrl("../../../assets/icons/eye-slash-regular.svg")
+    );
+    iconRegistry.addSvgIcon(
+      'show',
+      sanitizer.bypassSecurityTrustResourceUrl("../../../assets/icons/eye-regular.svg")
+    );
+  }
 
   years: { key: string; value: string }[] = [
     { key: '2022', value: '2022' },
@@ -37,7 +50,11 @@ export class FilterControlComponent {
   onSearch() {
     this.financialMovementMgmtService.setNewFilterSelection({
       year: this.year,
-      month: this.month != "13" ? this.month : null,
+      month: this.month != '13' ? this.month : null,
     });
+  }
+
+  onIncomeHiddenStatusChange() {
+    this.financialMovementMgmtService.toggleVisibleStatus();
   }
 }

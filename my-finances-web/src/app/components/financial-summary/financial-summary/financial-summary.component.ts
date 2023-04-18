@@ -11,20 +11,21 @@ import { FinancesUtils } from 'src/app/utils/finances.utils';
 export class FinancialSummaryComponent {
   constructor(
     public financesUtils: FinancesUtils,
-    private financialMovementMgmtService: FinancialMovementsManagementService
+    public financialMovementMgmtService: FinancialMovementsManagementService
   ) {}
 
   totalIncome: number = 0;
   totalExpense: number = 0;
   totalDifference: number = 0;
 
-  chartData = [];
-  view: any[] = [1200, 400];
+  chartDataIncomeVisible = [];
+  chartDataIncomeHidden = [];
+  view: any[] = [1100, 380];
   xAxisLabel: string = 'Months';
   yAxisLabel: string = 'Value';
   barPadding: number = 4;
   groupPadding: number = 6;
-  customColors = [
+  customColors2D = [
     {
       name: 'income',
       value: '#109010',
@@ -34,6 +35,9 @@ export class FinancialSummaryComponent {
       value: '#DE3636',
     },
   ];
+  customColors1D = {
+    domain: ['#DE3636'],
+  };
 
   ngOnInit() {
     this.getSummary();
@@ -56,98 +60,86 @@ export class FinancialSummaryComponent {
 
   getChartData() {
     this.financialMovementMgmtService.newRequestToServer.subscribe((data) => {
-      this.chartData = [];
+      this.chartDataIncomeVisible = [];
+      this.chartDataIncomeHidden = [];
+      let dataItemIncomeVisible = {};
+      let dataItemIncomeHidden = {};
       if (data.length > 0) {
         if (this.financialMovementMgmtService.month) {
           let year = this.financialMovementMgmtService.year;
           let month = this.financialMovementMgmtService.month;
           let daysInMonth = new Date(Number(year), Number(month), 0).getDate();
+          console.log(data)
           for (let i = 1; i <= daysInMonth; i++) {
-            let dataItem = {};
-            if (this.financialMovementMgmtService.incomeVisible) {
-              let incomeVal = data
-                .filter(
-                  (item) =>
-                    new Date(item.date).getDate() + 1 === i &&
-                    item.movementType === MovementType.Income
-                )
-                .reduce((a, b) => a + Number(b.value), 0);
-              let expenseVal = data
-                .filter(
-                  (item) =>
-                    new Date(item.date).getDate() + 1 === i &&
-                    item.movementType === MovementType.Expense
-                )
-                .reduce((a, b) => a + Number(b.value), 0);
-              dataItem = {
-                name: i.toString(),
-                series: [
-                  { name: 'income', value: incomeVal },
-                  { name: 'expense', value: expenseVal },
-                ],
-              };
-              this.groupPadding = 6;
-            } else {
-              let expenseVal = data
-                .filter(
-                  (item) =>
-                    new Date(item.date).getDate() + 1 === i &&
-                    item.movementType === MovementType.Expense
-                )
-                .reduce((a, b) => a + Number(b.value), 0);
-              dataItem = {
-                name: i.toString(),
-                value: expenseVal,
-              };
-              this.groupPadding = 6;
-            }
-            this.chartData.push(dataItem);
-          }
-        } else {
-          for (let i = 1; i <= 12; i++) {
-            let dataItem = {};
-            if (this.financialMovementMgmtService.incomeVisible) {
-              let incomeVal = data
-                .filter(
-                  (item) =>
-                    new Date(item.date).getMonth() + 1 === i &&
-                    item.movementType === MovementType.Income
-                )
-                .reduce((a, b) => a + Number(b.value), 0);
-              let expenseVal = data
-                .filter(
-                  (item) =>
-                    new Date(item.date).getMonth() + 1 === i &&
-                    item.movementType === MovementType.Expense
-                )
-                .reduce((a, b) => a + Number(b.value), 0);
-              dataItem = {
-                name: i.toString(),
-                series: [
-                  { name: 'income', value: incomeVal },
-                  { name: 'expense', value: expenseVal },
-                ],
-              };
-              this.groupPadding = 16;
-            } else {
-              let expenseVal = data
-                .filter(
-                  (item) =>
-                    new Date(item.date).getMonth() + 1 === i &&
-                    item.movementType === MovementType.Expense
-                )
-                .reduce((a, b) => a + Number(b.value), 0);
-              dataItem = {
-                name: i.toString(),
-                value: expenseVal,
-              };
-              this.groupPadding = 16;
-            }
-            this.chartData.push(dataItem);
+            let incomeVal = data
+              .filter(
+                (item) =>
+                  new Date(item.date).getDate() + 1 === i &&
+                  item.movementType === MovementType.Income
+              )
+              .reduce((a, b) => a + Number(b.value), 0);
+            let expenseVal = data
+              .filter(
+                (item) =>
+                  new Date(item.date).getDate() + 1 === i &&
+                  item.movementType === MovementType.Expense
+              )
+              .reduce((a, b) => a + Number(b.value), 0);
+            
+            this.groupPadding = 6;
+
+            dataItemIncomeVisible = {
+              name: i.toString(),
+              series: [
+                { name: 'income', value: incomeVal },
+                { name: 'expense', value: expenseVal },
+              ],
+            };
+
+            dataItemIncomeHidden = {
+              name: i.toString(),
+              value: expenseVal,
+            };
+
+            this.chartDataIncomeVisible.push(dataItemIncomeVisible);
+            this.chartDataIncomeHidden.push(dataItemIncomeHidden);
           }
         }
+      } else {
+        for (let i = 1; i <= 12; i++) {
+          let incomeVal = data
+            .filter(
+              (item) =>
+                new Date(item.date).getMonth() + 1 === i &&
+                item.movementType === MovementType.Income
+            )
+            .reduce((a, b) => a + Number(b.value), 0);
+          let expenseVal = data
+            .filter(
+              (item) =>
+                new Date(item.date).getMonth() + 1 === i &&
+                item.movementType === MovementType.Expense
+            )
+            .reduce((a, b) => a + Number(b.value), 0);
+          dataItemIncomeVisible = {
+            name: i.toString(),
+            series: [
+              { name: 'income', value: incomeVal },
+              { name: 'expense', value: expenseVal },
+            ],
+          };
+          this.groupPadding = 16;
+          dataItemIncomeHidden = {
+            name: i.toString(),
+            value: expenseVal,
+          };
+          this.groupPadding = 16;
+
+          this.chartDataIncomeVisible.push(dataItemIncomeVisible);
+          this.chartDataIncomeHidden.push(dataItemIncomeHidden);
+        }
       }
-      console.log(this.chartData);
+      console.log(this.chartDataIncomeVisible);
     });
   }
 }
