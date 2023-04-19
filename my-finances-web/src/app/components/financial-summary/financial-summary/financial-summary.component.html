@@ -35,7 +35,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-xs-12">
+    <div class="col-xs-12" *ngIf="!isMobile">
       <ngx-charts-bar-vertical
         *ngIf="!financialMovementMgmtService.incomeVisible"
         [view]="view"
@@ -50,7 +50,7 @@
         [xAxisLabel]="xAxisLabel"
         [yAxisLabel]="yAxisLabel"
         [scheme]="customColors1D"
-        [barPadding]="barPadding"        
+        [barPadding]="barPaddingIncomeHidden"        
       >
       </ngx-charts-bar-vertical>
       <ngx-charts-bar-vertical-2d
@@ -67,7 +67,7 @@
         [xAxisLabel]="xAxisLabel"
         [yAxisLabel]="yAxisLabel"
         [customColors]="customColors2D"
-        [barPadding]="barPadding"
+        [barPadding]="barPaddingIncomeVisible"
         [groupPadding]="groupPadding"        
       >
       </ngx-charts-bar-vertical-2d>

@@ -16,11 +16,19 @@ import { FinancialMovementsManagementService } from 'src/app/services/financial-
 export class FinancialMovementNewComponent {
   typeOptions = this.mapEnumForSelector(ExpenseCategory);
 
+  isMobile: boolean = false;
+
   constructor(
     public dialogRef: MatDialogRef<FinancialMovementNewComponent>,
     @Inject(MAT_DIALOG_DATA) public data: FinancialMovementItem,
     private financialMovementMgmtService: FinancialMovementsManagementService
   ) {}
+
+  ngOnInit() {
+    if (window.screen.width < 720) { // 768px portrait
+      this.isMobile = true;
+    }
+  }
 
   onNoClick(): void {
     this.dialogRef.close();

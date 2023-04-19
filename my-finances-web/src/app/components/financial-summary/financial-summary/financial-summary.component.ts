@@ -14,6 +14,8 @@ export class FinancialSummaryComponent {
     public financialMovementMgmtService: FinancialMovementsManagementService
   ) {}
 
+  isMobile: boolean = false;
+
   totalIncome: number = 0;
   totalExpense: number = 0;
   totalDifference: number = 0;
@@ -23,7 +25,8 @@ export class FinancialSummaryComponent {
   view: any[] = [1100, 380];
   xAxisLabel: string = 'Months';
   yAxisLabel: string = 'Value';
-  barPadding: number = 4;
+  barPaddingIncomeVisible: number = 4;
+  barPaddingIncomeHidden: number = 12;
   groupPadding: number = 6;
   customColors2D = [
     {
@@ -42,6 +45,9 @@ export class FinancialSummaryComponent {
   ngOnInit() {
     this.getSummary();
     this.getChartData();
+    if (window.screen.width < 720) { // 768px portrait
+      this.isMobile = true;
+    }
   }
 
   getSummary() {
@@ -71,7 +77,7 @@ export class FinancialSummaryComponent {
           let year = this.financialMovementMgmtService.year;
           let month = this.financialMovementMgmtService.month;
           let daysInMonth = new Date(Number(year), Number(month), 0).getDate();
-          console.log(data)
+          console.log(data);
           for (let i = 1; i <= daysInMonth; i++) {
             let incomeVal = data
               .filter(
@@ -86,9 +92,7 @@ export class FinancialSummaryComponent {
                   new Date(item.date).getDate() + 1 === i &&
                   item.movementType === MovementType.Expense
               )
-              .reduce((a, b) => a + Number(b.value), 0);
-            
-            this.groupPadding = 6;
+              .reduce((a, b) => a + Number(b.value), 0);            
 
             dataItemIncomeVisible = {
               name: i.toString(),
@@ -103,45 +107,49 @@ export class FinancialSummaryComponent {
               value: expenseVal,
             };
 
+            this.barPaddingIncomeVisible = 4;
+            this.barPaddingIncomeHidden = 16;
+            this.groupPadding = 6;
+            this.chartDataIncomeVisible.push(dataItemIncomeVisible);
+            this.chartDataIncomeHidden.push(dataItemIncomeHidden);
+          }
+        } else {
+          for (let i = 1; i <= 12; i++) {
+            let incomeVal = data
+              .filter(
+                (item) =>
+                  new Date(item.date).getMonth() + 1 === i &&
+                  item.movementType === MovementType.Income
+              )
+              .reduce((a, b) => a + Number(b.value), 0);
+            let expenseVal = data
+              .filter(
+                (item) =>
+                  new Date(item.date).getMonth() + 1 === i &&
+                  item.movementType === MovementType.Expense
+              )
+              .reduce((a, b) => a + Number(b.value), 0);
+            dataItemIncomeVisible = {
+              name: i.toString(),
+              series: [
+                { name: 'income', value: incomeVal },
+                { name: 'expense', value: expenseVal },
+              ],
+            };
+            
+            dataItemIncomeHidden = {
+              name: i.toString(),
+              value: expenseVal,
+            };
+
+            this.barPaddingIncomeVisible = 8;
+            this.barPaddingIncomeHidden = 48;
+            this.groupPadding = 16;
             this.chartDataIncomeVisible.push(dataItemIncomeVisible);
             this.chartDataIncomeHidden.push(dataItemIncomeHidden);
           }
         }
-      } else {
-        for (let i = 1; i <= 12; i++) {
-          let incomeVal = data
-            .filter(
-              (item) =>
-                new Date(item.date).getMonth() + 1 === i &&
-                item.movementType === MovementType.Income
-            )
-            .reduce((a, b) => a + Number(b.value), 0);
-          let expenseVal = data
-            .filter(
-              (item) =>
-                new Date(item.date).getMonth() + 1 === i &&
-                item.movementType === MovementType.Expense
-            )
-            .reduce((a, b) => a + Number(b.value), 0);
-          dataItemIncomeVisible = {
-            name: i.toString(),
-            series: [
-              { name: 'income', value: incomeVal },
-              { name: 'expense', value: expenseVal },
-            ],
-          };
-          this.groupPadding = 16;
-          dataItemIncomeHidden = {
-            name: i.toString(),
-            value: expenseVal,
-          };
-          this.groupPadding = 16;
-
-          this.chartDataIncomeVisible.push(dataItemIncomeVisible);
-          this.chartDataIncomeHidden.push(dataItemIncomeHidden);
-        }
       }
-      console.log(this.chartDataIncomeVisible);
     });
   }
 }

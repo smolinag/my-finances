@@ -1,0 +1,11 @@
+@media screen and (min-width: 600px) {
+  .responsiveInput {
+    font-size: medium;
+  }
+}
+
+@media screen and (max-width: 601px) {
+    .responsiveInput {
+      font-size: 14px;
+    }
+  }
