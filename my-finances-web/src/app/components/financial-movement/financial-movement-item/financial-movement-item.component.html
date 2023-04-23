@@ -1,4 +1,4 @@
-<a href="#" class="list-group-item clearfix">
+<div class="list-group-item clearfix">
   <div class="pull-left">
     <h4 class="list-group-item-heading">{{ financialMovement.name }}</h4>
     <p class="list-group-item-text">{{ financialMovement.description }}</p>
@@ -15,5 +15,23 @@
     >
       {{ financesUtils.mapValueToCurrency(financialMovement.value) }}
     </p>
+    <div style="text-align: right">
+      <mat-icon
+        aria-hidden="false"
+        aria-label="Edit movement"
+        fontIcon="edit"
+        class="item-icon"
+        (click)="onMovementItemEdit()"
+      >
+      </mat-icon>
+      <mat-icon
+        aria-hidden="false"
+        aria-label="Delete movement"
+        fontIcon="delete"
+        class="item-icon"
+        (click)="onMovementItemDelete()"
+      >
+      </mat-icon>
+    </div>
   </div>
-</a>
+</div>

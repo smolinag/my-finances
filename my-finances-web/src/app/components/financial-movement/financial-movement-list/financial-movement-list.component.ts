@@ -35,14 +35,17 @@ export class FinancialMovementListComponent {
     this.setFinancialMovementsByDay(this.financialMovements);
     this.financialMovementMgmtService.newFiltersSelection.subscribe(
       async () => {
-        this.financialMovements =
-          await this.financialMovementMgmtService.getFinancialMovements();
-        this.setFinancialMovementsByDay(this.financialMovements);
+        await this.financialMovementMgmtService.getFinancialMovements();
       }
     );
     this.financialMovementMgmtService.newIncomeVisibleStatus.subscribe(
       async () => {
         this.setFinancialMovementsByDay(this.financialMovements);
+      }
+    );
+    this.financialMovementMgmtService.newRequestToServer.subscribe(
+      async (financialMovements) => {
+        this.setFinancialMovementsByDay(financialMovements);
       }
     );
   }

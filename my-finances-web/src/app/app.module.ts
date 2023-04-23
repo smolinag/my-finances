@@ -27,6 +27,7 @@ import { FilterControlComponent } from './components/filter-control/filter-contr
 import { FinancialMovementNewComponent } from './components/financial-movement/financial-movement-new/financial-movement-new.component';
 import { FinancesUtils } from './utils/finances.utils';
 import { environment } from './environments/environment.local';
+import { ConfirmationDialogComponent } from './components/ui-general/confirmation-dialog/confirmation-dialog.component';
 
 Amplify.configure({
   Auth: {
@@ -48,6 +49,7 @@ Amplify.configure({
     FinancialMovementDayComponent,
     FilterControlComponent,
     FinancialMovementNewComponent,
+    ConfirmationDialogComponent,
   ],
   imports: [
     BrowserModule,

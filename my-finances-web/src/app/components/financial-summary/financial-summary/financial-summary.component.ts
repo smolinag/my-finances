@@ -22,7 +22,7 @@ export class FinancialSummaryComponent {
 
   chartDataIncomeVisible = [];
   chartDataIncomeHidden = [];
-  view: any[] = [1100, 380];
+  view: any[] = [1000, 370];
   xAxisLabel: string = 'Months';
   yAxisLabel: string = 'Value';
   barPaddingIncomeVisible: number = 4;
@@ -77,7 +77,6 @@ export class FinancialSummaryComponent {
           let year = this.financialMovementMgmtService.year;
           let month = this.financialMovementMgmtService.month;
           let daysInMonth = new Date(Number(year), Number(month), 0).getDate();
-          console.log(data);
           for (let i = 1; i <= daysInMonth; i++) {
             let incomeVal = data
               .filter(

@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>New Movement</h1>
+<h1 mat-dialog-title>{{isNewMovement ? "New Movement" : "Edit Movement"}}</h1>
 <div mat-dialog-content>
   <div class="row  responsiveInput">
     <div class="col-xs-4">
@@ -61,5 +61,5 @@
 </div>
 <div mat-dialog-actions align="end">
   <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+  <button mat-button [mat-dialog-close]="data" [disabled]="!data.name" cdkFocusInitial>Ok</button>
 </div>

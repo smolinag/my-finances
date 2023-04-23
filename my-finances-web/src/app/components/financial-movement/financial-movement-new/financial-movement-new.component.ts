@@ -17,6 +17,7 @@ export class FinancialMovementNewComponent {
   typeOptions = this.mapEnumForSelector(ExpenseCategory);
 
   isMobile: boolean = false;
+  isNewMovement: boolean = true;
 
   constructor(
     public dialogRef: MatDialogRef<FinancialMovementNewComponent>,
@@ -25,9 +26,10 @@ export class FinancialMovementNewComponent {
   ) {}
 
   ngOnInit() {
-    if (window.screen.width < 720) { // 768px portrait
+    if (window.screen.width < 720) {
       this.isMobile = true;
     }
+    this.isNewMovement = !this.data.name;
   }
 
   onNoClick(): void {
@@ -36,20 +38,22 @@ export class FinancialMovementNewComponent {
 
   onMovementTypeChange(value) {
     if (value == 0) {
-      this.data.movementType = MovementType.Expense;      
+      this.data.movementType = MovementType.Expense;
       this.typeOptions = this.mapEnumForSelector(ExpenseCategory);
     } else {
       this.data.movementType = MovementType.Income;
-      this.typeOptions = this.mapEnumForSelector(IncomeCategory);  
+      this.typeOptions = this.mapEnumForSelector(IncomeCategory);
     }
-    this.financialMovementMgmtService.setDefaultIncomeExpenseCategory(this.data);
+    this.financialMovementMgmtService.setDefaultIncomeExpenseCategory(
+      this.data
+    );
   }
 
-  onExpenseOrIncomeCategoryChange(value){
-    if(this.data.movementType == MovementType.Expense){
-      this.data.expenseCategory = value
+  onExpenseOrIncomeCategoryChange(value) {
+    if (this.data.movementType == MovementType.Expense) {
+      this.data.expenseCategory = value;
     } else {
-      this.data.incomeCategory = value
+      this.data.incomeCategory = value;
     }
   }
 

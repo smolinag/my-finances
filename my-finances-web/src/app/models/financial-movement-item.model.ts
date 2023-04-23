@@ -7,6 +7,7 @@ export class FinancialMovementItem {
   public expenseCategory: ExpenseCategory;
   public incomeCategory: IncomeCategory;
   public date: string;
+  public rangeId: string;
 
   constructor(
     userId: string = "",

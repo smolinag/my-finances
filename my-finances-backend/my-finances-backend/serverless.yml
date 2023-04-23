@@ -17,15 +17,24 @@ functions:
   insertFinancialMovement:
     handler: src/insertFinancialMovement.handler
     events:
-      - httpApi:
+      - http:
           path: /
           method: post
+          cors: true
   getFinancialMovements:
     handler: src/getFinancialMovements.handler
     events:
-      - httpApi:
+      - http:
           path: /
           method: get
+          cors: true
+  deleteFinancialMovement:
+    handler: src/deleteFinancialMovement.handler
+    events:
+      - http:
+          path: /deleteFinancialMovement
+          method: delete
+          cors: true
 
 resources:
   Resources:

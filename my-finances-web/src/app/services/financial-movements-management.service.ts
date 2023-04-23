@@ -70,6 +70,17 @@ export class FinancialMovementsManagementService {
     console.log(data);
   }
 
+  async deleteFinancialMovement(financialMovement: FinancialMovementItem) {
+    let params = new HttpParams();
+      params = params.append('userId', this.userId);
+      params = params.append('rangeId', financialMovement.rangeId);
+      let data = await firstValueFrom(
+        this.http.delete(environment.apiUrl + "deleteFinancialMovement", { params: params })
+      );
+      console.log('Financial movement deleted: ');
+      console.log(data);
+  }
+
   setNewFilterSelection(filters: SearchFilters) {
     this.year = filters.year;
     this.month = filters.month;
