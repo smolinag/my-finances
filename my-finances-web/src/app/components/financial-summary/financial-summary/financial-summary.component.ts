@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { MovementType } from 'src/app/models/financial-movement-item.model';
 import { FinancialMovementsManagementService } from 'src/app/services/financial-movements-management.service';
 import { FinancesUtils } from 'src/app/utils/finances.utils';
@@ -14,7 +14,9 @@ export class FinancialSummaryComponent {
     public financialMovementMgmtService: FinancialMovementsManagementService
   ) {}
 
+  @ViewChild('divToMeasure') divToMeasureElement: ElementRef;
   isMobile: boolean = window.screen.width < 720;
+  isLoading: boolean = true;
 
   totalIncome: number = 0;
   totalExpense: number = 0;
@@ -22,7 +24,7 @@ export class FinancialSummaryComponent {
 
   chartDataIncomeVisible = [];
   chartDataIncomeHidden = [];
-  view: number[] = [window.screen.width * 0.75, window.screen.width * 0.25];
+  view: number[];
   barPaddingIncomeVisible: number = Math.ceil(window.screen.width / 360 - 2);
   barPaddingIncomeHidden: number = Math.ceil(window.screen.width / 90 - 5);
   groupPadding: number = Math.ceil(window.screen.width / 240 - 2);
@@ -43,32 +45,39 @@ export class FinancialSummaryComponent {
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.isMobile = event.target.innerWidth < 720;
-    this.view = [
-      event.target.innerWidth * 0.75,
-      event.target.innerWidth * 0.25,
-    ];
-
-    if (this.financialMovementMgmtService.month) {
-      this.barPaddingIncomeHidden = Math.ceil(event.target.innerWidth / 90 - 5);
-      this.barPaddingIncomeVisible = Math.ceil(
-        event.target.innerWidth / 360 - 2
-      );
-      this.groupPadding = Math.ceil(event.target.innerWidth / 240 - 2);
-    } else {
-      this.barPaddingIncomeHidden = Math.ceil(
-        event.target.innerWidth / 20 - 20
-      );
-      this.barPaddingIncomeVisible = Math.ceil(
-        event.target.innerWidth / 144 - 5
-      );
-      this.groupPadding = Math.ceil(event.target.innerWidth / 84 - 9);
+    if (!this.isMobile) {
+      this.view = [
+        this.divToMeasureElement.nativeElement.offsetWidth,
+        this.divToMeasureElement.nativeElement.offsetWidth * 0.3,
+      ];
+      this.setPlotSpacing();
     }
-    console.log(this.barPaddingIncomeVisible);
   }
 
   ngOnInit() {
+    this.isLoading = true;
     this.getSummary();
     this.getChartData();
+  }
+
+  ngAfterViewInit() {
+    this.view = [
+      this.divToMeasureElement.nativeElement.offsetWidth,
+      this.divToMeasureElement.nativeElement.offsetWidth * 0.3,
+    ];
+  }
+
+  setPlotSpacing() {
+    const width = this.divToMeasureElement.nativeElement.offsetWidth;
+    if (this.financialMovementMgmtService.month) {
+      this.barPaddingIncomeHidden = Math.ceil(width / 90 - 5);
+      this.barPaddingIncomeVisible = Math.ceil(width / 300 - 2);
+      this.groupPadding = Math.ceil(width / 220 - 2);
+    } else {
+      this.barPaddingIncomeHidden = Math.ceil(width / 20 - 15);
+      this.barPaddingIncomeVisible = Math.ceil(width / 100 - 5);
+      this.groupPadding = Math.ceil(width / 70 - 6);
+    }
   }
 
   getSummary() {
@@ -88,11 +97,13 @@ export class FinancialSummaryComponent {
   }
 
   getChartData() {
+    console.log(this.isLoading);
     this.financialMovementMgmtService.newRequestToServer.subscribe((data) => {
       this.chartDataIncomeVisible = [];
       this.chartDataIncomeHidden = [];
       let dataItemIncomeVisible = {};
       let dataItemIncomeHidden = {};
+      this.setPlotSpacing();
       if (data.length > 0) {
         if (this.financialMovementMgmtService.month) {
           let year = this.financialMovementMgmtService.year;
@@ -126,8 +137,6 @@ export class FinancialSummaryComponent {
               name: i.toString(),
               value: expenseVal,
             };
-
-            this.groupPadding = 6;
             this.chartDataIncomeVisible.push(dataItemIncomeVisible);
             this.chartDataIncomeHidden.push(dataItemIncomeHidden);
           }
@@ -159,12 +168,12 @@ export class FinancialSummaryComponent {
               name: i.toString(),
               value: expenseVal,
             };
-
             this.chartDataIncomeVisible.push(dataItemIncomeVisible);
             this.chartDataIncomeHidden.push(dataItemIncomeHidden);
           }
         }
       }
+      this.isLoading = false;
     });
   }
 }

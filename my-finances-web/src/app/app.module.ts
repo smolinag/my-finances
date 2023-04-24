@@ -9,6 +9,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import { Amplify } from 'aws-amplify';
@@ -63,6 +64,7 @@ Amplify.configure({
     MatIconModule,
     NgxChartsModule,
     AmplifyAuthenticatorModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     FinancialMovementsManagementService,

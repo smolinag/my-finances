@@ -1,4 +1,4 @@
-<div class="col-xs-12">
+<div class="col-xs-12" #divToMeasure>
   <div class="row title">
     <h3>{{ "Summary" }}</h3>
   </div>
@@ -35,34 +35,64 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-xs-12" *ngIf="!isMobile">
-      <ngx-charts-bar-vertical
-        *ngIf="!financialMovementMgmtService.incomeVisible"
-        [view]="view"
-        [results]="chartDataIncomeHidden"
-        [gradient]="false"
-        [xAxis]="true"
-        [yAxis]="true"
-        [legend]="false"
-        [animations]="false"
-        [scheme]="customColors1D"
-        [barPadding]="barPaddingIncomeHidden"        
-      >
-      </ngx-charts-bar-vertical>
-      <ngx-charts-bar-vertical-2d
-        *ngIf="financialMovementMgmtService.incomeVisible"
-        [view]="view"
-        [results]="chartDataIncomeVisible"
-        [gradient]="false"
-        [xAxis]="true"
-        [yAxis]="true"
-        [legend]="false"
-        [animations]="false"
-        [customColors]="customColors2D"
-        [barPadding]="barPaddingIncomeVisible"
-        [groupPadding]="groupPadding"        
-      >
-      </ngx-charts-bar-vertical-2d>
-    </div>
+    <ng-container
+      *ngIf="isLoading; then loading; else notLoading"
+    ></ng-container>
   </div>
 </div>
+
+<ng-template #loading>
+  <div style="text-align: center;">
+    <mat-spinner style="margin: auto"></mat-spinner>
+    <p>Loading...</p>
+  </div>
+</ng-template>
+
+<ng-template #notLoading>
+  <ng-container
+    *ngIf="
+      totalExpense == 0 && totalIncome == 0;
+      then noMovements;
+      else movementsPlot
+    "
+  ></ng-container>
+</ng-template>
+
+<ng-template #noMovements>
+  <div class="col-xs-12 noMovementsText">
+    <p>There are no Financial Movements available.</p>
+    <p>Add a new movement.</p>
+  </div>
+</ng-template>
+
+<ng-template #movementsPlot>
+  <div class="col-xs-12" *ngIf="!isMobile">
+    <ngx-charts-bar-vertical
+      *ngIf="!financialMovementMgmtService.incomeVisible"
+      [view]="view"
+      [results]="chartDataIncomeHidden"
+      [gradient]="false"
+      [xAxis]="true"
+      [yAxis]="true"
+      [legend]="false"
+      [animations]="false"
+      [scheme]="customColors1D"
+      [barPadding]="barPaddingIncomeHidden"
+    >
+    </ngx-charts-bar-vertical>
+    <ngx-charts-bar-vertical-2d
+      *ngIf="financialMovementMgmtService.incomeVisible"
+      [view]="view"
+      [results]="chartDataIncomeVisible"
+      [gradient]="false"
+      [xAxis]="true"
+      [yAxis]="true"
+      [legend]="false"
+      [animations]="false"
+      [customColors]="customColors2D"
+      [barPadding]="barPaddingIncomeVisible"
+      [groupPadding]="groupPadding"
+    >
+    </ngx-charts-bar-vertical-2d>
+  </div>
+</ng-template>
