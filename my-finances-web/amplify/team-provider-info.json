@@ -1,15 +1,26 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-myfinancesweb-dev-180858-authRole",
-      "UnauthRoleArn": "arn:aws:iam::119135969665:role/amplify-myfinancesweb-dev-180858-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::119135969665:role/amplify-myfinancesweb-dev-180858-authRole",
+      "AuthRoleName": "amplify-myfinancesweb-dev-201836-authRole",
+      "UnauthRoleArn": "arn:aws:iam::119135969665:role/amplify-myfinancesweb-dev-201836-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::119135969665:role/amplify-myfinancesweb-dev-201836-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-myfinancesweb-dev-180858-deployment",
-      "UnauthRoleName": "amplify-myfinancesweb-dev-180858-unauthRole",
-      "StackName": "amplify-myfinancesweb-dev-180858",
-      "StackId": "arn:aws:cloudformation:us-east-1:119135969665:stack/amplify-myfinancesweb-dev-180858/ae534c00-d7f4-11ed-95cc-12422445a30f",
-      "AmplifyAppId": "d3q3s86qt67k9c"
+      "DeploymentBucketName": "amplify-myfinancesweb-dev-201836-deployment",
+      "UnauthRoleName": "amplify-myfinancesweb-dev-201836-unauthRole",
+      "StackName": "amplify-myfinancesweb-dev-201836",
+      "StackId": "arn:aws:cloudformation:us-east-1:119135969665:stack/amplify-myfinancesweb-dev-201836/f1c73480-e23d-11ed-98c2-0e1d8d7059af",
+      "AmplifyAppId": "d3f7r9ywhcvn2"
+    },
+    "categories": {
+      "auth": {
+        "myfinancesweb210c7e53": {}
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d3f7r9ywhcvn2",
+          "type": "manual"
+        }
+      }
     }
   }
 }

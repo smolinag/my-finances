@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { MovementType } from 'src/app/models/financial-movement-item.model';
 import { FinancialMovementsManagementService } from 'src/app/services/financial-movements-management.service';
 import { FinancesUtils } from 'src/app/utils/finances.utils';
@@ -14,7 +14,7 @@ export class FinancialSummaryComponent {
     public financialMovementMgmtService: FinancialMovementsManagementService
   ) {}
 
-  isMobile: boolean = false;
+  isMobile: boolean = window.screen.width < 720;
 
   totalIncome: number = 0;
   totalExpense: number = 0;
@@ -22,12 +22,10 @@ export class FinancialSummaryComponent {
 
   chartDataIncomeVisible = [];
   chartDataIncomeHidden = [];
-  view: any[] = [1000, 370];
-  xAxisLabel: string = 'Months';
-  yAxisLabel: string = 'Value';
-  barPaddingIncomeVisible: number = 4;
-  barPaddingIncomeHidden: number = 12;
-  groupPadding: number = 6;
+  view: number[] = [window.screen.width * 0.75, window.screen.width * 0.25];
+  barPaddingIncomeVisible: number = Math.ceil(window.screen.width / 360 - 2);
+  barPaddingIncomeHidden: number = Math.ceil(window.screen.width / 90 - 5);
+  groupPadding: number = Math.ceil(window.screen.width / 240 - 2);
   customColors2D = [
     {
       name: 'income',
@@ -42,12 +40,35 @@ export class FinancialSummaryComponent {
     domain: ['#DE3636'],
   };
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.isMobile = event.target.innerWidth < 720;
+    this.view = [
+      event.target.innerWidth * 0.75,
+      event.target.innerWidth * 0.25,
+    ];
+
+    if (this.financialMovementMgmtService.month) {
+      this.barPaddingIncomeHidden = Math.ceil(event.target.innerWidth / 90 - 5);
+      this.barPaddingIncomeVisible = Math.ceil(
+        event.target.innerWidth / 360 - 2
+      );
+      this.groupPadding = Math.ceil(event.target.innerWidth / 240 - 2);
+    } else {
+      this.barPaddingIncomeHidden = Math.ceil(
+        event.target.innerWidth / 20 - 20
+      );
+      this.barPaddingIncomeVisible = Math.ceil(
+        event.target.innerWidth / 144 - 5
+      );
+      this.groupPadding = Math.ceil(event.target.innerWidth / 84 - 9);
+    }
+    console.log(this.barPaddingIncomeVisible);
+  }
+
   ngOnInit() {
     this.getSummary();
     this.getChartData();
-    if (window.screen.width < 720) { // 768px portrait
-      this.isMobile = true;
-    }
   }
 
   getSummary() {
@@ -91,7 +112,7 @@ export class FinancialSummaryComponent {
                   new Date(item.date).getDate() + 1 === i &&
                   item.movementType === MovementType.Expense
               )
-              .reduce((a, b) => a + Number(b.value), 0);            
+              .reduce((a, b) => a + Number(b.value), 0);
 
             dataItemIncomeVisible = {
               name: i.toString(),
@@ -106,8 +127,6 @@ export class FinancialSummaryComponent {
               value: expenseVal,
             };
 
-            this.barPaddingIncomeVisible = 4;
-            this.barPaddingIncomeHidden = 16;
             this.groupPadding = 6;
             this.chartDataIncomeVisible.push(dataItemIncomeVisible);
             this.chartDataIncomeHidden.push(dataItemIncomeHidden);
@@ -135,15 +154,12 @@ export class FinancialSummaryComponent {
                 { name: 'expense', value: expenseVal },
               ],
             };
-            
+
             dataItemIncomeHidden = {
               name: i.toString(),
               value: expenseVal,
             };
 
-            this.barPaddingIncomeVisible = 8;
-            this.barPaddingIncomeHidden = 48;
-            this.groupPadding = 16;
             this.chartDataIncomeVisible.push(dataItemIncomeVisible);
             this.chartDataIncomeHidden.push(dataItemIncomeHidden);
           }

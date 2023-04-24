@@ -43,6 +43,8 @@ export enum ExpenseCategory {
   Prestamos = 'Prestamos',
   Viajes = 'Viajes',
   Ahorros = 'Ahorros',
+  Salidas = 'Salidas',
+  Gasolina = 'Gasolina',
   Otros = 'Otros'
 }
 

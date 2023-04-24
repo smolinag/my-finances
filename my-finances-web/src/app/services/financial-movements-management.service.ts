@@ -70,6 +70,15 @@ export class FinancialMovementsManagementService {
     console.log(data);
   }
 
+  async updateFinancialMovement(financialMovement: FinancialMovementItem) {
+    financialMovement.userId = this.userId;
+    let data = await firstValueFrom(
+      this.http.put(environment.apiUrl, JSON.stringify(financialMovement))
+    );
+    console.log('Updated financial movement: ');
+    console.log(data);
+  }
+
   async deleteFinancialMovement(financialMovement: FinancialMovementItem) {
     let params = new HttpParams();
       params = params.append('userId', this.userId);

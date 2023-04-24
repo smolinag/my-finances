@@ -37,8 +37,8 @@ export class FinancialMovementItemComponent {
 
     dialogRef.afterClosed().subscribe(async (result) => {
       if (result) {
-        console.log(result);
-        await this.financialMovementMgmtService.addNewFinancialMovement(result);
+        await this.financialMovementMgmtService.updateFinancialMovement(result);
+        await this.financialMovementMgmtService.getFinancialMovements();
       }
     });
   };

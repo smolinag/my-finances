@@ -35,6 +35,13 @@ functions:
           path: /deleteFinancialMovement
           method: delete
           cors: true
+  updateFinancialMovement:
+    handler: src/updateFinancialMovement.handler
+    events:
+      - http:
+          path: /
+          method: put
+          cors: true
 
 resources:
   Resources:
