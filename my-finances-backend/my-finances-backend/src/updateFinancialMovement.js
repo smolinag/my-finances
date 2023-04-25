@@ -15,6 +15,7 @@ const updateFinancialMovement = async (event) => {
     const dateStr = data.date.split("-");
     const year = dateStr[0];
     const month = dateStr[1];
+    const day = dateStr[2];
 
     let params = {
       Key: { id: id, rangeId: rangeId },
@@ -32,7 +33,7 @@ const updateFinancialMovement = async (event) => {
     newFinancialMovement = {
       id: data.userId,
       rangeId:
-        year + "-" + month + "-" + data.movementType[0] + "-" + data.name,
+        year + "-" + month + "-" + day + "-" + data.name + "-" + new Date().toLocaleString(),
       name: data.name,
       description: data.description,
       value: data.value,

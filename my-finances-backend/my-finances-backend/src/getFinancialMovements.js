@@ -12,7 +12,7 @@ const getFinancialMovements = async (event) => {
     const id = event["queryStringParameters"]["userId"];
     const year = event["queryStringParameters"]["year"];
     const month = event["queryStringParameters"]["month"];
-    const type = event["queryStringParameters"]["type"];
+    const day = event["queryStringParameters"]["day"];
 
     if (id) {
       let rangeId;
@@ -20,8 +20,8 @@ const getFinancialMovements = async (event) => {
         rangeId = year;
         if (month) {
           rangeId += "-" + month;
-          if (type) {
-            rangeId += "-" + type[0];
+          if (day) {
+            rangeId += "-" + day;
           }
         }
       }
