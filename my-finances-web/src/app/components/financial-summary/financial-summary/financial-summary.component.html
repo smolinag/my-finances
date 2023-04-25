@@ -66,7 +66,7 @@
 </ng-template>
 
 <ng-template #movementsPlot>
-  <div class="col-xs-12" *ngIf="!isMobile">
+  <div class="col-xs-12" [ngStyle]="{padding: isMobile ? '0 0' : '0 15'}">
     <ngx-charts-bar-vertical
       *ngIf="!financialMovementMgmtService.incomeVisible"
       [view]="view"
@@ -76,6 +76,7 @@
       [yAxis]="true"
       [legend]="false"
       [animations]="false"
+      [yAxisTickFormatting]="setYAxisTicksValues"
       [scheme]="customColors1D"
       [barPadding]="barPaddingIncomeHidden"
     >
@@ -92,7 +93,9 @@
       [customColors]="customColors2D"
       [barPadding]="barPaddingIncomeVisible"
       [groupPadding]="groupPadding"
+      [yAxisTickFormatting]="setYAxisTicksValues"
     >
     </ngx-charts-bar-vertical-2d>
+    <p class="plotNoteText" *ngIf="isMobile">*Values shown in thousands.</p>
   </div>
 </ng-template>

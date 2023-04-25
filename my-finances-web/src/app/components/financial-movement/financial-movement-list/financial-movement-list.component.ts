@@ -74,7 +74,7 @@ export class FinancialMovementListComponent {
   setFinancialMovementsByDay(financialMovements: FinancialMovementItem[]) {
     this.financialMovementsByDay = [];
     financialMovements.sort(
-      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );
     const incomeVisibleFlag = this.financialMovementMgmtService.incomeVisible;
     financialMovements.forEach((movement) => {

@@ -45,13 +45,10 @@ export class FinancialSummaryComponent {
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.isMobile = event.target.innerWidth < 720;
-    if (!this.isMobile) {
-      this.view = [
-        this.divToMeasureElement.nativeElement.offsetWidth,
-        this.divToMeasureElement.nativeElement.offsetWidth * 0.3,
-      ];
-      this.setPlotSpacing();
-    }
+    console.log(this.isMobile)
+    const width = this.divToMeasureElement.nativeElement.offsetWidth;
+    this.view = [width, this.isMobile ? width * 0.5 : width * 0.3];
+    this.setPlotSpacing();
   }
 
   ngOnInit() {
@@ -61,23 +58,26 @@ export class FinancialSummaryComponent {
   }
 
   ngAfterViewInit() {
-    this.view = [
-      this.divToMeasureElement.nativeElement.offsetWidth,
-      this.divToMeasureElement.nativeElement.offsetWidth * 0.3,
-    ];
+    const width = this.divToMeasureElement.nativeElement.offsetWidth;
+    this.view = [width, this.isMobile ? width * 0.5 : width * 0.3];
+    console.log(this.isMobile)
   }
 
   setPlotSpacing() {
     const width = this.divToMeasureElement.nativeElement.offsetWidth;
     if (this.financialMovementMgmtService.month) {
-      this.barPaddingIncomeHidden = Math.ceil(width / 90 - 5);
-      this.barPaddingIncomeVisible = Math.ceil(width / 300 - 2);
-      this.groupPadding = Math.ceil(width / 220 - 2);
+      this.barPaddingIncomeHidden = Math.ceil((width / 44) - 6);
+      this.barPaddingIncomeVisible = Math.ceil(width / 390);
+      this.groupPadding = Math.ceil((width / 260) - 1);
     } else {
-      this.barPaddingIncomeHidden = Math.ceil(width / 20 - 15);
-      this.barPaddingIncomeVisible = Math.ceil(width / 100 - 5);
-      this.groupPadding = Math.ceil(width / 70 - 6);
+      this.barPaddingIncomeHidden = Math.ceil(width / 14 - 18);
+      this.barPaddingIncomeVisible = Math.ceil(width / 130 - 2);
+      this.groupPadding = Math.ceil(width / 87 - 3);
     }
+    console.log(width)
+    console.log(this.barPaddingIncomeHidden)
+    console.log(this.barPaddingIncomeVisible)
+    console.log(this.groupPadding)
   }
 
   getSummary() {
@@ -97,7 +97,6 @@ export class FinancialSummaryComponent {
   }
 
   getChartData() {
-    console.log(this.isLoading);
     this.financialMovementMgmtService.newRequestToServer.subscribe((data) => {
       this.chartDataIncomeVisible = [];
       this.chartDataIncomeHidden = [];
@@ -175,5 +174,10 @@ export class FinancialSummaryComponent {
       }
       this.isLoading = false;
     });
+  }
+
+  setYAxisTicksValues(tick: number) {
+    const isMobile = window.screen.width < 620;
+    return isMobile ? (tick / 1000) : tick;
   }
 }
