@@ -3,3 +3,25 @@
     margin: 0 1rem;
     cursor: pointer;
 }
+
+.category-text{
+    color:rgb(91, 124, 194);
+    font-size: smaller;
+    margin-bottom: 10px;
+}
+
+.name-text{
+    color:rgb(31, 31, 31);
+    font-size: medium;
+    margin: 0 0 8px 12px;
+}
+
+.description-text{
+    color:rgb(94, 94, 94);
+    font-size: small;
+    margin: 0 0 6px 12px;
+}
+
+.value-text{
+    margin: 12px 0;
+}

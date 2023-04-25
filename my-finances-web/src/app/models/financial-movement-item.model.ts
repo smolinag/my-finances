@@ -36,23 +36,23 @@ export enum MovementType {
 }
 
 export enum ExpenseCategory {
-  Facturas = 'Facturas',
+  Facturas = 'Factura',
   Mercado = 'Mercado',
-  Compras = 'Compras',
-  Deudas = 'Deudas',
-  Prestamos = 'Prestamos',
-  Viajes = 'Viajes',
-  Ahorros = 'Ahorros',
-  Salidas = 'Salidas',
+  Compras = 'Compra',
+  Deudas = 'Deuda',
+  Prestamos = 'Prestamo',
+  Viajes = 'Viaje',
+  Ahorros = 'Ahorro',
+  Salidas = 'Salida',
   Gasolina = 'Gasolina',
-  Otros = 'Otros'
+  Otros = 'Otro'
 }
 
 export enum IncomeCategory {
   Salario = 'Salario',
-  Arriendos = 'Arriendos',
+  Arriendos = 'Arriendo',
   Ventas = 'Ventas',
   Dividendos = 'Dividendos',
   Honorarios = 'Honorarios',
-  Otros = 'Otros'
+  Otros = 'Otro'
 }

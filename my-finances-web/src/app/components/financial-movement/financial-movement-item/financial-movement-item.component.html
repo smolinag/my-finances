@@ -1,11 +1,18 @@
 <div class="list-group-item clearfix">
   <div class="pull-left">
-    <h4 class="list-group-item-heading">{{ financialMovement.name }}</h4>
-    <p class="list-group-item-text">{{ financialMovement.description }}</p>
+    <p class="category-text">
+      {{
+        financialMovement.movementType == movementType.Expense
+          ? financialMovement.expenseCategory
+          : financialMovement.incomeCategory
+      }}
+    </p>
+    <p class="name-text">{{ financialMovement.name }}</p>
+    <p class="description-text">{{ financialMovement.description }}</p>
   </div>
   <div class="pull-right">
     <p
-      class="list-group-item-text"
+      class="value-text"
       [ngStyle]="{
         color:
           financialMovement.movementType === movementType.Expense
