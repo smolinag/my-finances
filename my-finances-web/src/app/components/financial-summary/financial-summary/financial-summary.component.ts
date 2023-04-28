@@ -1,5 +1,8 @@
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
-import { MovementType } from 'src/app/models/financial-movement-item.model';
+import {
+  FinancialMovementItem,
+  MovementType,
+} from 'src/app/models/financial-movement-item.model';
 import { FinancialMovementsManagementService } from 'src/app/services/financial-movements-management.service';
 import { FinancesUtils } from 'src/app/utils/finances.utils';
 
@@ -17,6 +20,9 @@ export class FinancialSummaryComponent {
   @ViewChild('divToMeasure') divToMeasureElement: ElementRef;
   isMobile: boolean = window.screen.width < 720;
   isLoading: boolean = true;
+
+  chartSel: string = "Categories";
+  chartOptions: string[] = ["Categories", "Time"];
 
   totalIncome: number = 0;
   totalExpense: number = 0;
@@ -42,10 +48,11 @@ export class FinancialSummaryComponent {
     domain: ['#DE3636'],
   };
 
+  expenseCategoriesChartData: { name: string; value: number }[] = [];
+
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.isMobile = event.target.innerWidth < 720;
-    console.log(this.isMobile)
     const width = this.divToMeasureElement.nativeElement.offsetWidth;
     this.view = [width, this.isMobile ? width * 0.5 : width * 0.3];
     this.setPlotSpacing();
@@ -54,30 +61,26 @@ export class FinancialSummaryComponent {
   ngOnInit() {
     this.isLoading = true;
     this.getSummary();
-    this.getChartData();
+    this.getTimeChartData();
+    this.getCategoriesChartData();
   }
 
   ngAfterViewInit() {
     const width = this.divToMeasureElement.nativeElement.offsetWidth;
     this.view = [width, this.isMobile ? width * 0.5 : width * 0.3];
-    console.log(this.isMobile)
   }
 
   setPlotSpacing() {
     const width = this.divToMeasureElement.nativeElement.offsetWidth;
     if (this.financialMovementMgmtService.month) {
-      this.barPaddingIncomeHidden = Math.ceil((width / 44) - 6);
+      this.barPaddingIncomeHidden = Math.ceil(width / 44 - 6);
       this.barPaddingIncomeVisible = Math.ceil(width / 390);
-      this.groupPadding = Math.ceil((width / 260) - 1);
+      this.groupPadding = Math.ceil(width / 260 - 1);
     } else {
       this.barPaddingIncomeHidden = Math.ceil(width / 14 - 18);
       this.barPaddingIncomeVisible = Math.ceil(width / 130 - 2);
       this.groupPadding = Math.ceil(width / 87 - 3);
     }
-    console.log(width)
-    console.log(this.barPaddingIncomeHidden)
-    console.log(this.barPaddingIncomeVisible)
-    console.log(this.groupPadding)
   }
 
   getSummary() {
@@ -96,7 +99,7 @@ export class FinancialSummaryComponent {
     );
   }
 
-  getChartData() {
+  getTimeChartData() {
     this.financialMovementMgmtService.newRequestToServer.subscribe((data) => {
       this.chartDataIncomeVisible = [];
       this.chartDataIncomeHidden = [];
@@ -178,6 +181,31 @@ export class FinancialSummaryComponent {
 
   setYAxisTicksValues(tick: number) {
     const isMobile = window.screen.width < 620;
-    return isMobile ? (tick / 1000) : tick;
+    return isMobile ? tick / 1000 : tick;
+  }
+
+  getCategoriesChartData() {
+    this.financialMovementMgmtService.newRequestToServer.subscribe(
+      (data: FinancialMovementItem[]) => {
+        data.forEach((item) => {
+          if (item.movementType == MovementType.Expense) {
+            const category = item.expenseCategory;
+            const value = Number(item.value);
+            const pieChartCategory = this.expenseCategoriesChartData.find(
+              (cat) => cat.name === category
+            );
+            if (pieChartCategory) {
+              pieChartCategory.value += value;
+            } else {
+              this.expenseCategoriesChartData.push({ name: category, value: value });
+            }
+          }
+        });
+      }
+    );
+  }
+
+  chartCategoryChange(event){
+    this.chartSel = event;
   }
 }

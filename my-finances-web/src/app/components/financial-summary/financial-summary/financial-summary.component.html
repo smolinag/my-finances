@@ -3,35 +3,23 @@
     <h3>{{ "Summary" }}</h3>
   </div>
   <div class="row">
-    <div *ngIf="financialMovementMgmtService.incomeVisible" class="col-md-4">
-      <div class="card" style="width: 14rem">
-        <div class="card-body">
-          <h4 class="card-title">Total Income:</h4>
-          <p class="card-text" style="color: #008000">
-            {{ financesUtils.mapValueToCurrency(totalIncome) }}
-          </p>
-        </div>
-      </div>
-    </div>
     <div class="col-md-4">
-      <div class="card" style="width: 14rem">
-        <div class="card-body">
-          <h4 class="card-title">Total Expense:</h4>
-          <p class="card-text" style="color: #ce2626">
-            {{ financesUtils.mapValueToCurrency(totalExpense) }}
-          </p>
-        </div>
-      </div>
+      <span class="total-title-text">Total Expense:</span>
+      <span style="color: #ce2626">
+        {{ financesUtils.mapValueToCurrency(totalExpense) }}
+      </span>
     </div>
     <div *ngIf="financialMovementMgmtService.incomeVisible" class="col-md-4">
-      <div class="card" style="width: 14rem">
-        <div class="card-body">
-          <h4 class="card-title">Difference:</h4>
-          <p class="card-text">
-            {{ financesUtils.mapValueToCurrency(totalDifference) }}
-          </p>
-        </div>
-      </div>
+      <span class="total-title-text">Total Income:</span>
+      <span style="color: #008000">
+        {{ financesUtils.mapValueToCurrency(totalIncome) }}
+      </span>
+    </div>
+    <div *ngIf="financialMovementMgmtService.incomeVisible" class="col-md-4">
+      <span class="total-title-text">Difference:</span>
+      <span>
+        {{ financesUtils.mapValueToCurrency(totalDifference) }}
+      </span>
     </div>
   </div>
   <div class="row">
@@ -42,7 +30,7 @@
 </div>
 
 <ng-template #loading>
-  <div style="text-align: center;">
+  <div style="text-align: center">
     <mat-spinner style="margin: auto"></mat-spinner>
     <p>Loading...</p>
   </div>
@@ -66,7 +54,35 @@
 </ng-template>
 
 <ng-template #movementsPlot>
-  <div class="col-xs-12" [ngStyle]="{padding: isMobile ? '0 0' : '0 15'}">
+  <div class="col-xs-6 col-md-2 pull-right">
+    <select class="chart-select" (change)="chartCategoryChange($event.target.value)">
+      <option *ngFor="let chartOption of chartOptions">
+        {{ chartOption }}
+      </option>
+    </select>
+  </div>
+  <div
+    *ngIf="chartSel === 'Categories'"
+    class="col-xs-12"
+    [ngStyle]="{ padding: isMobile ? '0 0' : '0 15' }"
+  >
+    <ngx-charts-bar-vertical
+      [view]="view"
+      [results]="expenseCategoriesChartData"
+      [gradient]="false"
+      [xAxis]="true"
+      [yAxis]="true"
+      [legend]="false"
+      [animations]="false"
+      [yAxisTickFormatting]="setYAxisTicksValues"
+    >
+    </ngx-charts-bar-vertical>
+  </div>
+  <div
+    *ngIf="chartSel === 'Time'"
+    class="col-xs-12"
+    [ngStyle]="{ padding: isMobile ? '0 0' : '0 15' }"
+  >
     <ngx-charts-bar-vertical
       *ngIf="!financialMovementMgmtService.incomeVisible"
       [view]="view"
