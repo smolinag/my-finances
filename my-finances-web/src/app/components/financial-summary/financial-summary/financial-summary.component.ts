@@ -187,6 +187,7 @@ export class FinancialSummaryComponent {
   getCategoriesChartData() {
     this.financialMovementMgmtService.newRequestToServer.subscribe(
       (data: FinancialMovementItem[]) => {
+        this.expenseCategoriesChartData = [];
         data.forEach((item) => {
           if (item.movementType == MovementType.Expense) {
             const category = item.expenseCategory;
@@ -201,6 +202,8 @@ export class FinancialSummaryComponent {
             }
           }
         });
+        console.log("Categories:")
+        console.log(this.expenseCategoriesChartData)
       }
     );
   }

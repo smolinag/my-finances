@@ -30,6 +30,7 @@
         class="btn btn-primary"
         mat-raised-button
         (click)="onIncomeHiddenStatusChange()"
+        style="margin-right: 1rem"
       >
         <mat-icon
           aria-hidden="false"
@@ -37,7 +38,7 @@
           [svgIcon]="
             financialMovementMgmtService.incomeVisible ? 'show' : 'hide'
           "
-          style="vertical-align: middle"
+          style="vertical-align: middle;"
         >
         </mat-icon>
         <span> Income</span>
